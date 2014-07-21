@@ -10,11 +10,14 @@ function handleRender(res, err, html){
 	if(err) {
 		
 		// render panic as response
-		res.render('panic');
+		res.render('panic', function(err,html){
+			if(err) res.send(500);
+			else res.send(500, html);
+		});
 		console.log(err);
 
 	// Else just send rendered html
-	} else res.send(html);
+	} else res.send(200,html);
 
 }
 
