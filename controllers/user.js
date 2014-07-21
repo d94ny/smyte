@@ -727,19 +727,34 @@ exports.login = function(input, success, failure) {
 
         	} else {
 
-				// username not taken yet
-				users.insert({"username" : input.username.trim(), "password" : hashed, "email": input.email.trim()}, function(err, docs){
+        		// Check if email is already used
+        		users.find({"email" : input.email.trim()}).toArray(function(err, documents){
 
-					if(err) {
-						failure("panic", "Sorry, the database is doing stupid stuff again.");
-        				return;
-					}
+		        	if(err) {
+		        		failure("panic", "Sorry, the database is doing stupid stuff again.");
+		        		return;
+		        	}
 
-					// return userID and username for cookie
-					success(docs[0]._id.valueOf(), input.username.trim());
-					return;
+		        	if(documents.length > 0) {
+		        		failure("signup", "That email was already used for an account.");
+		        		return;
+		        	}
 
-				});
+					// username and email not taken
+					users.insert({"username" : input.username.trim(), "password" : hashed, "email": input.email.trim()}, function(err, docs){
+
+						if(err) {
+							failure("panic", "Sorry, the database is doing stupid stuff again.");
+	        				return;
+						}
+
+						// return userID and username for cookie
+						success(docs[0]._id.valueOf(), input.username.trim());
+						return;
+
+					});
+
+				});	
 			}
 
 		});
