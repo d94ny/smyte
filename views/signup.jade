@@ -1,0 +1,26 @@
+-# Extends layout.jade
+
+extend layout
+block css
+block js
+block content
+
+	div#header
+
+		- if(error)
+
+			div.list.danger(style='display:block')
+				div.remove
+				| #{error}
+
+		form(action='/signup', method='post')
+			input(type='text', name='username', value='username')
+			input(type='password', name='password', value='password')
+			input(type='text', name='email', value='email')
+			div.details#terms
+				input(type='checkbox', onclick='ofcourse()')
+				|  I have read the 
+				a.classic(onclick='terms()') terms and conditions
+			br
+			input.button.cool(type='submit', value='Sign up')
+			a.button(href="/") Nah I'm good

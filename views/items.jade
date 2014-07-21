@@ -1,0 +1,54 @@
+-# Extends layout.jade
+
+extend layout
+block css
+block js
+block content
+
+	div#header
+		a.button(href='/') Back
+		| #{listName}
+
+	div#conent
+
+		// Creater
+		div.list.active#29302(onclick='create();') How about you add something ?
+			div.plus
+
+		// hidden
+		div.list.create#9904
+			div.arrow
+			form(action='/add',method='post')
+				div#217619140
+				div#217619139
+					input(type='hidden', name='listId', value='#{listId}')
+					input(type='text', name='itemName', maxlenght='200', value='Text or link')
+				input.button(type='submit', value='Save', onclick='loading();')
+				a.button(onclick='create();') Cancel
+
+		// items
+		- for( var i=0; i< listItems.length; i++)
+			- if(listItems[i] && listItems[i].text && listItems[i].text != "")
+
+				div.item(id="l#{i}")
+					-if(listItems[i].link)
+						a.text.one.active(href='#{listItems[i].text}', target='_blank') #{listItems[i].title}
+					- else
+						div.text.one #{listItems[i].text}
+
+					div.option.one.remove(onclick="togggle('r','#{i}');")
+						div.remove
+
+				div.list.danger(id='r#{i}')
+					div.remove
+					| Do you really wanna delete 
+					i '#{listItems[i].text}'
+					|  ?
+					br
+					form(action='/ri', method='post')
+						input(type='hidden', name='listId', value='#{listId}')
+						input(type='hidden', name='itemName', value='#{listItems[i].text}')
+						input.button(type='submit', value='Yope')
+						a.button(onclick="togggle('r','#{i}');") No I don't
+
+

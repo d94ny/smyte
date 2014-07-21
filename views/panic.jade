@@ -1,0 +1,22 @@
+-# Extends layout.jade
+
+extend layout
+block css
+block js
+block content
+
+	div#conent
+
+		div.list.danger(style='display:block')
+			div.remove
+			if (error)
+				| #{error}
+			else
+				| Something seems to be broken. Sorry about that.
+
+		a.list.active(href='/') Try to go back home
+			div.arrow
+		a.list.active(href='/logout') Or logout
+			div.arrow
+		a.list.active(href='http://youtube.com') If that doesn't work ...
+			div.arrow

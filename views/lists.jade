@@ -1,0 +1,91 @@
+-# Extends layout.jade
+-# Requires title
+
+extend layout
+block css
+block js
+block content
+
+	div#header
+
+		- if(loggedIn)
+			a.button(href='/logout') Log out
+			| Yo #{username} ! How's life ?
+
+		- else
+
+			- var a = "display:block";
+			- var b = "display:none";
+			- if(!error || errorType != 0) { a = ""; b = "" }
+
+			div#17325(style='#{b}')
+				a.button.cool(onclick='log();') Log in
+				| Or don't. Whatever.
+
+			// hidden by default
+			div#l385109(style='#{a}')
+				- if (error && errorType == 0)
+					div.list.danger(style='display:block')
+						div.remove
+						| #{error}
+				form(action='/login', method='post')
+					input(type='text', name='username', value='username')
+					input(type='password', name='password', value='password')
+					br
+					input.button.cool(type='submit', value='Log in')
+					a.button(href="/forgot") I forgot my password
+					a.button(href="/signup") I'm not signed up yet
+					a.button(onclick='log();') Nah, I'll use cookies
+
+	div#conent
+
+
+		if (error && errorType == 1) 
+			div.list.danger(style='display:block')
+					div.remove
+					| #{error}
+		else
+			// Creater
+			div.list.active#29302(onclick='create();') Oi Mate, how about a new list ?
+				div.plus
+
+			// hidden by default
+			div.list.create#9904
+				div.arrow
+				form(action='/create',method='post')
+					input(type='text', name='listName', maxlenght='200', value='Dopeass list name')
+					br
+					input.button(type='submit', value='Save')
+					a.button(onclick='create();') Cancel
+			
+			- for(var i = 0; i < data.length; i++)
+				- if(data[i].name!==undefined&&data[i]!="")
+
+					// all items are always visible
+					div.item(id='l#{data[i]._id}')
+						a.text.two(href='/l/#{data[i]._id}') #{data[i].name}
+						div.option.two.edit(onclick="togggle('e', '#{data[i]._id}');")
+							div.edit
+						div.option.two.remove(onclick="togggle('r', '#{data[i]._id}');")
+							div.remove
+
+
+					div.list.edit(id='e#{data[i]._id}')
+						div.edit
+						form(action='/el', method='post')
+							input(type='hidden', name='listId' value='#{data[i]._id}')
+							input(type='text',name='listName',maxlenght='200', value='#{data[i].name}')
+							br
+							input.button(type='submit', value='Save')
+							a.button(onclick="togggle('e', '#{data[i]._id}');") Cancel
+
+					div.list.danger(id='r#{data[i]._id}')
+						div.remove
+						| Do you really wanna delete 
+						i '#{data[i].name}'
+						|  ?
+						br
+						form(action='/dl', method='post')
+							input(type='hidden', name='listId', value='#{data[i]._id}')
+							input.button(type='submit', value='Yope')
+							a.button(onclick="togggle('r', '#{data[i]._id}');") No I don't

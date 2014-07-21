@@ -1,0 +1,26 @@
+-# Extends layout.jade
+
+extend layout
+block css
+block js
+block content
+
+	div#header
+	
+		- if(error)
+
+			div.list.danger(style='display:block')
+				div.remove
+				| #{error}
+
+		- else 
+			div.list.edit(style='display:block')
+				div.edit
+				| Alright Dr. Forgeto, just type your email. Maybe stuff will happen.
+
+		form(action='/forgot', method='post')
+			input(type='text', name='email', value='email')
+			div#email
+			input.button.cool(type='submit', value='Send please')
+			a.button(onclick='email()') I also forgot my email
+			a.button(href="/") Never mind

@@ -1,0 +1,31 @@
+-# Extends layout.jade
+-# Requires title
+
+extend layout
+block css
+block js
+block content
+
+	div#header
+		a.button Log in
+		| Or don't. Whatever.
+
+	div#conent
+		div.list.active Oi Mate, how about a new list ?
+			div.plus
+
+		div.list
+			div.arrow
+			input(type='text',value='Dopeass list name')
+			br
+			input.button(type='submit', value='Go Go Go!')
+			a.button Cancel
+
+		div.item.editable Dope List
+			div.edit
+
+		div.item.removable Buy Milk or Stuff
+			div.remove
+
+	div#footer
+		| © Daniel Balle 2014
