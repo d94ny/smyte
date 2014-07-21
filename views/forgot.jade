@@ -19,7 +19,7 @@ block content
 				| Alright Dr. Forgeto, just type your email. Maybe stuff will happen.
 
 		form(action='/forgot', method='post')
-			input(type='text', name='email', value='email')
+			input(type='text', name='email', placeholder='email')
 			div#email
 			input.button.cool(type='submit', value='Send please')
 			a.button(onclick='email()') I also forgot my email

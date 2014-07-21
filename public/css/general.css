@@ -12,6 +12,8 @@ body {
 /* BUTTONS */
 input[type="text"], input[type='password'] {
 
+	-webkit-appearance: none;
+    border-radius: 0;
 	outline: none;
 	border:0px;
 	border-left: 4px solid #CCC;
@@ -29,6 +31,8 @@ input[type="text"], input[type='password'] {
 
 input.button, a.button {
 
+	-webkit-appearance: none;
+    border-radius: 0;
 	display: inline-block;
 	margin-top: 5px;
 	color:#FFF;
