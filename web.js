@@ -45,6 +45,9 @@ console.log('Running on '+port);
 // Use gzip compression
 app.use(express.compress());
 
+// Favicon stuff
+app.use(express.favicon(__dirname + '/public/img/favicons/favicon.ico')); 
+
 // Setup Express to serve static files
 // Static files (css,js,images ...) are located inside /public
 app.use(express.static(__dirname + '/public'));
@@ -82,7 +85,7 @@ app.post('/forgot', route.resend);
 app.post('/theme', route.theme);
 
 // Handle the stupid favicon
-app.get('/favicon.ico', route.favicon);
+// app.get('/favicon.ico', route.favicon);
 
 // Handle 404 error message
 app.get('*', route.notfound);

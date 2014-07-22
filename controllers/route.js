@@ -91,6 +91,7 @@ exports.items = function(req, res) {
 			var w = Theme.whiteTheme(req);
 			res.render('items', {
 				wTheme : w,
+				title: list.name,
 				listName : list.name,
 				listId : list._id.valueOf(),
 				listItems : list.items.reverse()
