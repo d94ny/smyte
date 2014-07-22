@@ -4,7 +4,9 @@ html(lang='en')
 		title Lists
 		base(href='/')
 		meta(name="viewport", content="width=500, user-scalable=no")
-		link(rel='stylesheet', href='css/general.css', type='text/css')
+		link(rel='stylesheet', href='css/generalb.css', type='text/css')
+		- if(wTheme)
+			link(rel='stylesheet', href='css/extraw.css', type='text/css')
 		script(type='text/javascript', src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
 		script(type='text/javascript', src='js/general.js')
 		block css
@@ -13,3 +15,10 @@ html(lang='en')
 
 		block js
 		block content
+
+		div#footer
+			| © Daniel Balle 2014
+			form(action='/theme', method='post')
+				- if (wTheme) var newt = '87790449'; else var newt = '68567885';
+				input(type='hidden', name='newTheme', value='#{newt}')
+				input(type='submit', value='this theme sucks')

@@ -1,0 +1,25 @@
+
+body {
+	background-color: #FFF;
+	color:#000;
+}
+
+div#header { background-color: #FFF; }
+
+div#header input[type="text"], div#header input[type='password'] {
+	border: 2px solid #CCC;
+	border-left: 4px solid #CCC;
+}
+
+
+.list {
+	color:#000;
+	background-color: #FFF;
+}
+
+.item .text {
+	color:#000;
+	background-color: #FFF;
+}
+
+.item .option { background-color: #FFF; }

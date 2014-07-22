@@ -79,6 +79,7 @@ app.get('/signup', route.form);
 app.post('/signup', route.signup);
 app.get('/forgot', route.forgot);
 app.post('/forgot', route.resend);
+app.post('/theme', route.theme);
 
 // Handle the stupid favicon
 app.get('/favicon.ico', route.favicon);

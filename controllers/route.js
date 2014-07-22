@@ -2,16 +2,17 @@
 // Required libraries
 var User = require('./user');
 var Url = require('./url');
+var Theme = require('./theme');
 
 // Function to handle rendering
-function handleRender(res, err, html){
+function handleRender(res, err, html, theme){
 
 	// If an error occured while rendering
 	if(err) {
 		
 		// render panic as response
-		res.render('panic', function(err,html){
-			if(err) res.send(500);
+		res.render('panic', {wTheme : theme}, function(err,html){
+			if(err) res.send(500, "<h1>Sorry, mega failure of doom</h1>");
 			else res.send(500, html);
 		});
 		console.log(err);
@@ -22,11 +23,11 @@ function handleRender(res, err, html){
 }
 
 // Function to handle Errors and CookieUpdates
-function handleAndRedirect(res, err, cookieUpdate, redirect) {
+function handleAndRedirect(res, err, cookieUpdate, redirect, theme) {
 
 	// 1. Check if Error occured
 	if (err) {
-		res.render('panic', {error : err});
+		res.render('panic', {error : err, wTheme: theme});
 		return;
 	}
 
@@ -55,18 +56,23 @@ exports.lists = function(req, res){
 				res.cookie('DopeAssListsData', data, { maxAge: 2592000*1000, httpOnly: true });
 			}
 
+			// get theme
+			var w = Theme.whiteTheme(req);
+
 			// render list page
 			res.render('lists', {
+				wTheme : w,
 				loggedIn : logged,
 				username : username,
 				data : data.reverse()
-			}, function(err, html){ handleRender(res, err, html) });
+			}, function(err, html){ handleRender(res, err, html, w) });
 
 		},
 
 		// Callback for failure()
 		function(type, err) {
-			res.render(type, {error: err}, function(err, html){ handleRender(res, err, html) });
+			var w = Theme.whiteTheme(req);
+			res.render(type, {error: err, wTheme : w}, function(err, html){ handleRender(res, err, html, w) });
 			return;
 		}
 	);
@@ -82,17 +88,20 @@ exports.items = function(req, res) {
 		// Callback for success
 		function(list){
 
+			var w = Theme.whiteTheme(req);
 			res.render('items', {
+				wTheme : w,
 				listName : list.name,
 				listId : list._id.valueOf(),
 				listItems : list.items.reverse()
-			}, function(err, html){ handleRender(res, err, html) });
+			}, function(err, html){ handleRender(res, err, html, w) });
 		},
 
 		// Callback for failure
 		function(type, err) {
 			// render corresponding error page
-			res.render(type, {error: err}, function(err, html){ handleRender(res, err, html) });
+			var w = Theme.whiteTheme(req);
+			res.render(type, {error: err, wTheme: w}, function(err, html){ handleRender(res, err, html, w) });
 			return;
 
 		}
@@ -105,7 +114,8 @@ exports.items = function(req, res) {
 exports.create = function(req, res){
 
 	User.createList(req, function(err, id, cookieUpdate) {
-		handleAndRedirect(res, err, cookieUpdate, '/l/'+id);
+		var w = Theme.whiteTheme(req);
+		handleAndRedirect(res, err, cookieUpdate, '/l/'+id, w);
 		return;
 	});
 }
@@ -115,16 +125,18 @@ exports.create = function(req, res){
  */
 exports.add = function(req, res) {
 
+	var w = Theme.whiteTheme(req);
+
 	// Requires optional paramters !
 	if(!req.body.itemName) {
-		res.render('panic', {error:"Provided information was malformatted"});
+		res.render('panic', {error:"Provided information was malformatted", wTheme: w});
 		return;
 	}
 
 	Url.findLink(req.body.itemName, function(link, title, text) {
 
 		User.editList(req, 2, function(err, cookieUpdate) {
-			handleAndRedirect(res, err, cookieUpdate, '/l/'+req.body.listId);
+			handleAndRedirect(res, err, cookieUpdate, '/l/'+req.body.listId, w);
 			return;
 		},
 		{"link": link, "title":title, "text": text});
@@ -139,7 +151,8 @@ exports.add = function(req, res) {
 exports.removeItem = function(req, res) {
 
 	User.editList(req, 1, function(err, cookieUpdate) {
-		handleAndRedirect(res, err, cookieUpdate, '/l/'+req.body.listId);
+		var w = Theme.whiteTheme(req);
+		handleAndRedirect(res, err, cookieUpdate, '/l/'+req.body.listId, w);
 		return;
 	});
 
@@ -151,7 +164,8 @@ exports.removeItem = function(req, res) {
 exports.editList = function(req, res) {
 
 	User.editList(req, 0, function(err, cookieUpdate) {
-		handleAndRedirect(res, err, cookieUpdate, '/');
+		var w = Theme.whiteTheme(req);
+		handleAndRedirect(res, err, cookieUpdate, '/', w);
 		return;
 	});
 
@@ -163,7 +177,8 @@ exports.editList = function(req, res) {
 exports.deleteList = function(req, res) {
 
 	User.deleteList(req, function(err, cookieUpdate) {
-		handleAndRedirect(res, err, cookieUpdate, '/');
+		var w = Theme.whiteTheme(req);
+		handleAndRedirect(res, err, cookieUpdate, '/', w);
 		return;
 	});
 
@@ -176,6 +191,7 @@ exports.deleteList = function(req, res) {
 exports.login = function(req, res) {
 
 	var input = req.body;
+	var w = Theme.whiteTheme(req);
 
 	if(User.loggedIn(req)){
 		res.redirect('/');
@@ -197,7 +213,7 @@ exports.login = function(req, res) {
 		function(type, err) {
 			switch(type) {
 				case "panic":
-					res.render(type, {error : err});
+					res.render(type, {error : err, wTheme: w});
 					break;
 				case "lists":
 
@@ -207,12 +223,13 @@ exports.login = function(req, res) {
     				);
 
 					res.render('lists', {
+						wTheme: w,
 						loggedIn : false,
 						username : null,
 						data : data,
 						error : err,
 						errorType : 0
-					}, function(err, html){ handleRender(res, err, html) });
+					}, function(err, html){ handleRender(res, err, html, w) });
 					break;
 			}
 			return;
@@ -238,7 +255,8 @@ exports.logout = function(req, res) {
 		return;
 	}
 
- 	res.render('signup', function(err, html){ handleRender(res, err, html) });
+	var w = Theme.whiteTheme(req);
+ 	res.render('signup', {wTheme: w},function(err, html){ handleRender(res, err, html, w) });
  	return;
  }
 
@@ -264,25 +282,51 @@ exports.signup = function(req, res) {
 		},
 		// failure
 		function(type, err) {
-			res.render(type, {error : err});
+			var w = Theme.whiteTheme(req);
+			res.render(type, {error : err, wTheme: w}, function(err, html){ handleRender(res, err, html, w) });
 			return;
 		}
 	);
 };
 
 exports.forgot = function(req, res) {
-	res.render('forgot', function(err, html){ handleRender(res, err, html) });
+	var w = Theme.whiteTheme(req);
+	res.render('forgot', {wTheme: w}, function(err, html){ handleRender(res, err, html,w) });
 }
 
 exports.resend = function(req, res) {
-	res.render('forgot', function(err, html){ handleRender(res, err, html) });
+	var w = Theme.whiteTheme(req);
+	res.render('forgot', {wTheme: w}, function(err, html){ handleRender(res, err, html,w) });
+}
+
+exports.theme = function(req, res) {
+	Theme.theme(req, function(err, result){
+
+		var w = Theme.whiteTheme(req);
+		// 1. check if error
+		if (err) {
+			res.render('panic', {error : err, wTheme: w});
+			return;
+		}
+
+		// 2. Change the 
+		if(result) {
+			res.cookie('DopeAssListsTheme', result, { maxAge: 2592000*1000, httpOnly: true });
+		}
+
+		// 3. redirect to List page
+		res.redirect('/');
+		return;
+
+	});
 }
 
 // Panic function
 exports.panic = function(req, res){
 
 	// Render panic function without callback to stay coherant
-	res.render('panic');
+	var w = Theme.whiteTheme(req);
+	res.render('panic', {wTheme: w});
 
 }
 
@@ -290,7 +334,8 @@ exports.panic = function(req, res){
 exports.notfound = function(req, res){
 
 	// Render panic function without callback to stay coherant
-	res.render('panic', {error: "404 Page not found"});
+	var w = Theme.whiteTheme(req);
+	res.render('panic', {error: "404 Page not found", wTheme: w});
 	
 }
 

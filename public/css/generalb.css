@@ -1,0 +1,340 @@
+/* BODY */
+body {
+	padding:0px;
+	margin:0px;
+	background-color: #333; /* if w : #FFF */
+	color:#FFF; /* if w : #000 */
+	font-size: 24px;
+	font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+	font-weight: lighter;
+}
+
+/* BUTTONS */
+input[type="text"], input[type='password'] {
+
+	-webkit-appearance: none;
+    border-radius: 0;
+	outline: none;
+	border:0px;
+	border-left: 4px solid #CCC;
+	margin:0px;
+	padding: 5px 10px;
+	margin-right: 20px;
+	font-size: 24px;
+	background-color: #FFF;
+	font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+	width: 100%;
+	margin-bottom: 10px;
+	box-sizing: border-box;
+
+}
+
+input.button, a.button {
+
+	-webkit-appearance: none;
+    border-radius: 0;
+	display: inline-block;
+	margin-top: 5px;
+	color:#FFF;
+	font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+	font-size: 24px;
+	padding: 5px 10px;
+	margin-right: 20px;
+	background-color: rgb(150,150,150);
+	background-color: rgba(150,150,150,0.5);
+	color:#111;
+	border: 0px;
+	text-decoration: none;
+
+}
+
+input.button:hover, a.button:hover {
+	cursor: pointer;
+	color:#FFF;
+	background-image: url('/img/pattern.png');
+	background-repeat: repeat;
+}
+
+.button.cool {
+	background-color: #F9ED23;
+	color:#000;
+}
+
+/* CONTENT */
+
+div#header {
+
+	position:relative;
+	margin: 0px auto;
+	left: 0px;
+	right: 0px;
+	padding: 20px;
+	background-color: #222; /* if w : #FFF */;
+	/* background-image: url('/img/pattern.png'); /* maybe removed ... */
+	background-repeat: repeat;
+	border-bottom: 3px solid #000;
+	word-wrap:break-word;
+
+}
+
+/* if w 
+div#header input[type="text"], div#header input[type='password'] {
+	border: 3px solid #CCC;
+}
+*/
+
+div#conent {
+
+	position: relative;
+	margin: 0px auto;
+	padding: 40px;
+	left: 0px;
+	right: 0px;
+	margin-bottom: 100px;
+
+}
+
+/* LISTS */
+/* They have 80px padding on left side */
+
+.list {
+
+	position: relative;
+	display: block;
+	color:#FFF; /* if w : #000 */
+	text-decoration: none;
+	outline: none;
+	left: 0px;
+	right: 0px;
+	margin: 15px auto;
+	padding: 20px;
+	padding-left: 80px;
+	background-color: #222; /* if w : #FFF */
+	word-wrap:break-word;
+	border:3px solid #000; /* new */
+
+}
+
+.list div.plus {
+	position: absolute;
+	left:20px;
+	top:15px;
+	width: 40px;
+	height: 40px;
+	background-image: url('/img/sprites.png');
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+}
+
+.list div.arrow {	
+	position: absolute;
+	left:20px;
+	top:15px;
+	width: 40px;
+	height: 40px;
+	background-image: url('/img/sprites.png');
+	background-repeat: no-repeat;
+	background-position: 0px -100px;
+
+}
+
+.list div.remove {
+
+	position: absolute;
+	left:20px;
+	top:15px;
+	width: 40px;
+	height: 40px;
+	background-image: url('/img/sprites.png');
+	background-repeat: no-repeat;
+	background-position: 0px -50px;
+
+}
+
+.list div.edit {
+	position: absolute;
+	left:20px;
+	top:15px;
+	width: 40px;
+	height: 40px;
+	background-image: url('/img/sprites.png');
+	background-repeat: no-repeat;
+	background-position: 0px -150px;
+
+}
+
+.list.active:hover {
+	cursor: pointer;
+	background-color: #27F470;
+	color:#000;
+	background-image: url('/img/pattern.png');
+	background-repeat: repeat;
+}
+
+
+.list.danger {
+	display: none; /* HIDDEN PER DEFAULT */
+	background-color: #F7263F;
+	color:#000;
+	background-image: url('/img/pattern.png');
+	background-repeat: repeat;
+}
+
+.list.create {
+	display: none; /* HIDDEN PER DEFAULT */
+	background-color: #27F470;
+	color:#000;
+	background-image: url('/img/pattern.png');
+	background-repeat: repeat;
+}
+
+.list.edit {
+	display: none; /* HIDDEN PER DEFAULT */
+	background-color: #F9ED23;
+	color:#000;
+	background-image: url('/img/pattern.png');
+	background-repeat: repeat;
+}
+
+/* ITEMS */
+
+/* Just a container */
+.item {
+
+	position: relative;
+	display: block;
+	color:#FFF;
+	text-decoration: none;
+	outline: none;
+	left: 0px;
+	right: 0px;
+	margin: 15px 0px;
+	padding: 0px;
+	border: 3px solid #000; /* new */
+
+}
+
+.item .text {
+
+	position: relative;
+	display: block;
+	color:#FFF; /* if w : #000 */
+	text-decoration: none;
+	outline: none;
+	left: 0px;
+	right: 0px;
+	padding: 20px;
+	background-color: #222; /* if w : #FFF */
+	word-wrap:break-word;
+}
+
+.item .text.one { margin-right: 80px;}
+.item .text.two { margin-right: 160px;}
+
+.item .text.two:hover, .item .text.one.active:hover {
+	cursor: pointer;
+	background-color: #27F470;
+	color:#000;
+	background-image: url('/img/pattern.png');
+	background-repeat: repeat;
+}
+.item .text.one.active {
+	text-decoration: underline;
+}
+
+
+.item .option {
+
+	position: absolute;
+	top:0px;
+	right:0px;
+	display: block;
+	width: 80px;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	background-color: #222; /* if w : #FFF */
+
+}
+
+.item .option.two.remove {right:0px;}
+.item .option.remove:hover {
+	cursor: pointer;
+	background-color: #F7263F;
+	color:#000;
+	background-image: url('/img/pattern.png');
+	background-repeat: repeat;
+}
+
+.item .option.one.edit { right:0px;}
+.item .option.two.edit { right:80px;}
+.item .option.edit:hover {
+	cursor: pointer;
+	background-color: #F9ED23;
+	color:#000;
+	background-image: url('/img/pattern.png');
+	background-repeat: repeat;
+}
+
+.option div.remove {
+
+	position: absolute;
+	right:20px;
+	top:15px;
+	width: 40px;
+	height: 40px;
+	background-image: url('/img/sprites.png');
+	background-repeat: no-repeat;
+	background-position: 0px -50px;
+
+}
+
+.option div.edit {	
+	position: absolute;
+	right:20px;
+	top:15px;
+	width: 40px;
+	height: 40px;
+	background-image: url('/img/sprites.png');
+	background-repeat: no-repeat;
+	background-position: 0px -150px;
+
+}
+
+
+div#footer {
+	left:0px;
+	right:0px;
+	margin: 0px auto;
+	padding: 20px;
+	font-size: 10px;
+	text-align: center;
+	color:#CCC;
+	color:rgba(100,100,100,0.3);
+}
+
+div#footer input[type='submit'] {
+	background-color: transparent;
+	font-size: 10px;
+	color:#CCC;
+	color:rgba(100,100,100,0.3);
+	border:0px;
+	display: inline-block;
+	text-decoration: underline;
+}
+
+div#footer input[type='submit']:hover{
+	cursor: pointer;
+}
+
+div #l385109 { display: none; }
+.details {
+	font-size: 16px;
+}
+a.classic {
+	text-decoration: underline;
+}
+a.classic:hover {
+	cursor: pointer;
+	color:#fff;
+}
