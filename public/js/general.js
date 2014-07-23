@@ -3,6 +3,7 @@ function create() {
 	if($("#29302").is(":visible")) {
 		$("#29302").hide();
 		$("#9904").show();
+		$("#9904i").focus();
 	} else {
 		$("#9904").hide();
 		$("#29302").show();
