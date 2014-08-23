@@ -289,17 +289,22 @@ exports.signup = function(req, res) {
 		}
 	);
 };
-
+/*
 exports.forgot = function(req, res) {
 	var w = Theme.whiteTheme(req);
 	res.render('forgot', {wTheme: w}, function(err, html){ handleRender(res, err, html,w) });
 }
 
 exports.resend = function(req, res) {
-	var w = Theme.whiteTheme(req);
-	res.render('forgot', {wTheme: w}, function(err, html){ handleRender(res, err, html,w) });
-}
 
+	User.resetPassword(req, function(type, err){
+			var w = Theme.whiteTheme(req);
+			// err can be a success message too here. I know, thats stupid.
+			res.render(type, {error : err, wTheme: w}, function(err, html){ handleRender(res, err, html, w) });
+			return;
+	});
+}
+*/
 exports.theme = function(req, res) {
 	Theme.theme(req, function(err, result){
 

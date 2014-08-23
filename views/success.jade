@@ -1,0 +1,20 @@
+-# Extends layout.jade
+
+extend layout
+block css
+block js
+block content
+
+	div#conent
+
+		div.list.create(style='display:block')
+			div.plus
+			if (error)
+				| #{error}
+			else
+				| Everyhting went according to plan
+
+		a.list.active(href='/') Go back home
+			div.arrow
+		a.list.active(href='/logout') Or logout
+			div.arrow

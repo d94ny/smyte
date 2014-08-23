@@ -80,8 +80,8 @@ app.post('/dl', route.deleteList);
 app.get('/logout', route.logout);
 app.get('/signup', route.form);
 app.post('/signup', route.signup);
-app.get('/forgot', route.forgot);
-app.post('/forgot', route.resend);
+//app.get('/forgot', route.forgot);
+//app.post('/forgot', route.resend);
 app.post('/theme', route.theme);
 
 // Handle the stupid favicon

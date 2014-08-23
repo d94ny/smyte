@@ -6,12 +6,12 @@ var BSON = mongo.BSONPure;
 
 // Check if loggedIn
 function loggedIn(req){
-  return (req.cookies.DopeAssListsUser!==undefined && req.cookies.DopeAssListsUser != "");
+	return (req.cookies.DopeAssListsUser!==undefined && req.cookies.DopeAssListsUser != "");
 }
 
 // Checks if the cookie for a specific request is valid
 function validCookie(req){
-  return (req.cookies.DopeAssListsData!==undefined&&(req.cookies.DopeAssListsData instanceof Array));
+	return (req.cookies.DopeAssListsData!==undefined&&(req.cookies.DopeAssListsData instanceof Array));
 }
 
 // returns Username of Logged in user
@@ -36,15 +36,15 @@ function getAll(req, success, failure) {
 	/* 0A. Lists
 	[
 		{ name: String,
-		  _id: ObjectID,
-		  items: [ String ]
+			_id: ObjectID,
+			items: [ String ]
 		}
 	]
 
 	/* 0B. Users and Lists in MongoDB
 	[ { username: String,
-	  password: String,
-	  _id: ObjectID
+		password: String,
+		_id: ObjectID
 	} ]
 	
 	[ { name: String,
@@ -71,30 +71,30 @@ function getAll(req, success, failure) {
 				return;
 			}
 
-    		// 1Aii. We are connected
-    		var lists = db.collection('lists');
-    		try { var UserId = new BSON.ObjectID(getUserId(req));
-    		} catch(err) {
-    			failure("panic", "Your cookie is malformated. Try to logout and login again.");
-    			return;
-    		}
-	        lists.find({"owner" : UserId}, { "sort": [ "_id", "desc" ] }).toArray(function(err, documents){
+				// 1Aii. We are connected
+				var lists = db.collection('lists');
+				try { var UserId = new BSON.ObjectID(getUserId(req));
+				} catch(err) {
+					failure("panic", "Your cookie is malformated. Try to logout and login again.");
+					return;
+				}
+					lists.find({"owner" : UserId}, { "sort": [ "_id", "desc" ] }).toArray(function(err, documents){
 
 				if(err) {
 					failure("panic", "Sorry we can't load your lists right now. Try again later.");
 					return;
-	          	}
+							}
 
-	          	try { var username = getUsername(req)}
-	          	catch(err) { 
-	          		failure("panic", "Your cookie is malformated. Try to logout and login again.");
-    				return;
-	          	}
+							try { var username = getUsername(req)}
+							catch(err) { 
+								failure("panic", "Your cookie is malformated. Try to logout and login again.");
+						return;
+							}
 
-	          	success(true, username, null, documents);
+							success(true, username, null, documents);
 				return;
 
-	        });
+					});
 
 		});
 
@@ -105,9 +105,9 @@ function getAll(req, success, failure) {
 		var data = [];
 		var valid = validCookie(req);
 
-    	if(valid) data = req.cookies.DopeAssListsData.sort(function(a,b){ return a._id.valueOf() - b._id.valueOf() });
+			if(valid) data = req.cookies.DopeAssListsData.sort(function(a,b){ return a._id.valueOf() - b._id.valueOf() });
 
-    	success(false, null, !valid, data);
+			success(false, null, !valid, data);
 		return;
 
 	}
@@ -146,30 +146,30 @@ function getList(req, success, failure) {
 				return;
 			}
 
-    		// 1Aii. We are connected
-    		var lists = db.collection('lists');
-    		try { var UserId = new BSON.ObjectID(getUserId(req));
-    		} catch(err) {
-    			failure("panic", "Your cookie is malformated. Try to logout and login again.");
-    			return;
-    		}
-    		var ObjId = new BSON.ObjectID(id);
-	        lists.find({"owner" : UserId, "_id" : ObjId }).toArray(function(err, documents){
+				// 1Aii. We are connected
+				var lists = db.collection('lists');
+				try { var UserId = new BSON.ObjectID(getUserId(req));
+				} catch(err) {
+					failure("panic", "Your cookie is malformated. Try to logout and login again.");
+					return;
+				}
+				var ObjId = new BSON.ObjectID(id);
+					lists.find({"owner" : UserId, "_id" : ObjId }).toArray(function(err, documents){
 
 				if(err) {
 					failure("panic", "Sorry, an error occured while getting your stuff.");
 					return;
-	          	}
+							}
 
-	          	if(documents.length < 1) {
-	          		failure("panic", "404 The list does not exist");
-	          		return;
-	          	}
+							if(documents.length < 1) {
+								failure("panic", "404 The list does not exist");
+								return;
+							}
 
-	          	success(documents[0]);
+							success(documents[0]);
 				return;
 
-	        });
+					});
 
 		});
 
@@ -177,20 +177,20 @@ function getList(req, success, failure) {
 	// 2. THE USER IS NOT SIGNED UP
 
 		// 2A. Check if we has a valid Cookie already
-    	if(validCookie(req)) data = req.cookies.DopeAssListsData;
-    	else {
-    		failure("panic", "Something is wrong with your cookie");
-    		return;
-    	}
+			if(validCookie(req)) data = req.cookies.DopeAssListsData;
+			else {
+				failure("panic", "Something is wrong with your cookie");
+				return;
+			}
 
 		var index = findList(id, data);
 
 		if(index == -1) {
 			failure("panic", "404 The list does not exist");
-          	return;
+						return;
 		}
 
-    	success(data[index]);
+			success(data[index]);
 		return;
 
 	}
@@ -225,32 +225,32 @@ function createList(req, callback) {
 			if(err) {
 				callback("The database seems to be dead", null, null);
 				return;
-    		}
+				}
 
-    		// 1Aii. We are connected
-    		try { var username = getUsername(req);
-    		} catch(err) { 
-    			callback("Your cookie is malformatted. Try to logout and login again.", null);
-    			return;
-    		}
-    		try { var UserId = new BSON.ObjectID(getUserId(req));
-    		} catch(err) {
-    			failure("panic", "Your cookie is malformated. Try to logout and login again.");
-    			return;
-    		}
+				// 1Aii. We are connected
+				try { var username = getUsername(req);
+				} catch(err) { 
+					callback("Your cookie is malformatted. Try to logout and login again.", null);
+					return;
+				}
+				try { var UserId = new BSON.ObjectID(getUserId(req));
+				} catch(err) {
+					failure("panic", "Your cookie is malformated. Try to logout and login again.");
+					return;
+				}
 
-    		var users = db.collection('users');
-	        users.find({"username" : username, "_id": UserId }).toArray(function(err, documents){
+				var users = db.collection('users');
+					users.find({"username" : username, "_id": UserId }).toArray(function(err, documents){
 
-	        	if (err) {
-	        		callback("Sorry the database is doing stupid stuff", null, null);
-	        		return;
-	        	}
+						if (err) {
+							callback("Sorry the database is doing stupid stuff", null, null);
+							return;
+						}
 
 				if(documents.length < 1) {
 					callback("User seems to be invalid", null, null);
 					return;
-	          	}
+							}
 
 				// We have a valid user.
 				var lists = db.collection('lists');
@@ -264,28 +264,28 @@ function createList(req, callback) {
 
 				});
 
-	        });
+					});
 
 		});
 
 	} else { 
 	// 2. THE USER IS NOT SIGNED UP
 
-    	if(validCookie(req)) {
-    		
-    		var id = new BSON.ObjectID();
-    		var data = req.cookies.DopeAssListsData;
-    		data.push({ name: input.listName, _id: id, items:[] });
+			if(validCookie(req)) {
+				
+				var id = new BSON.ObjectID();
+				var data = req.cookies.DopeAssListsData;
+				data.push({ name: input.listName, _id: id, items:[] });
 
-    		// requires Cookie upadte
+				// requires Cookie upadte
 			callback(false, id.valueOf(), data);
 			return;
 
-    	} else {
+			} else {
 
-    		callback("Not a valid cookie", null, null);
-    		return;
-    	}
+				callback("Not a valid cookie", null, null);
+				return;
+			}
 
 	}
 }
@@ -300,12 +300,12 @@ function createList(req, callback) {
  */
  function editList(req, type, callback, optional) {
 
- 	// type :
- 	// 0 = edit List (requires listId, listName)
- 	// 1 = delete Item from List (requires listId, itemName)
- 	// 2 = add Item to List (requires listId, itemName, optional.link, optional.title) 
+	// type :
+	// 0 = edit List (requires listId, listName)
+	// 1 = delete Item from List (requires listId, itemName)
+	// 2 = add Item to List (requires listId, itemName, optional.link, optional.title) 
 
- 	// 0. get the data
+	// 0. get the data
 	var input = req.body;
 
 	// 0. verify listId (needed in all cases)
@@ -325,152 +325,152 @@ function createList(req, callback) {
 			if(err) {
 				callback(err, null);
 				return;
-    		}
+				}
 
-    		// Make sure user is really valid
-    		try { var username = getUsername(req);
-    		} catch(err) { 
-    			callback("Your cookie is malformatted. Try to logout and login again.", null);
-    			return;
-    		}
-    		try { var UserId = new BSON.ObjectID(getUserId(req));
-    		} catch(err) {
-    			failure("panic", "Your cookie is malformated. Try to logout and login again.");
-    			return;
-    		}
+				// Make sure user is really valid
+				try { var username = getUsername(req);
+				} catch(err) { 
+					callback("Your cookie is malformatted. Try to logout and login again.", null);
+					return;
+				}
+				try { var UserId = new BSON.ObjectID(getUserId(req));
+				} catch(err) {
+					failure("panic", "Your cookie is malformated. Try to logout and login again.");
+					return;
+				}
 
-    		var users = db.collection('users');
-	        users.find({"username" : username, "_id": UserId }).toArray(function(err, documents){
+				var users = db.collection('users');
+					users.find({"username" : username, "_id": UserId }).toArray(function(err, documents){
 
-	        	if (err) {
-	        		callback("Sorry the database is doing stupid stuff", null);
-	        		return;
-	        	}
+						if (err) {
+							callback("Sorry the database is doing stupid stuff", null);
+							return;
+						}
 
 				if(documents.length < 1) {
 					callback("User seems to be invalid", null);
 					return;
-	          	}
+							}
 
 
-	    		// 1Aii. We are connected
-	    		var lists = db.collection('lists');
-	    		var ObjId = new BSON.ObjectID(input.listId);
+					// 1Aii. We are connected
+					var lists = db.collection('lists');
+					var ObjId = new BSON.ObjectID(input.listId);
 
-	    		// 1B. Now check what to do
-	    		var query = {};
+					// 1B. Now check what to do
+					var query = {};
 
-	    		switch(type) {
-	    			case 0: // EDIT LIST
-	    				if(input.listName && input.listName.length > 0 && input.listName.length < 201 ) query = { $set: { "name": input.listName } };
-	    				else {
-	    					callback("Provided information was malformatted", null);
-	    					return;
-	    				}
-	    				break;
-	    			case 1: // DELETE ITEM
-	    				if(input.itemName && input.itemName.length > 0 && input.itemName.length < 201 ) { 
-	    					// OLD: query = { $pull: { "items": input.itemName } };
-	    					query = { $pull: { "items" : { "text" : input.itemName } } }
-	    				} else {
-	    					callback("Provided information was malformatted", null);
-	    					return;
-	    				}
-	    				break;
-	    			case 2: // ADD ITEM
-	    				// OLD : if(input.itemName && input.itemName.length > 0) query = { $push: { "items": input.itemName } };
-	    				if(optional.text && optional.text.length > 0 && optional.text.length < 201
-	    					&& optional.link !== undefined && optional.title !== undefined) {
-	    					query = { $push: { "items":  {text:optional.text, link:optional.link, title:optional.title } } }
-	    				} else {
-	    					callback("Provided information was malformatted", null);
-	    					return;
-	    				}
-	    				break;
-	    		}
+					switch(type) {
+						case 0: // EDIT LIST
+							if(input.listName && input.listName.length > 0 && input.listName.length < 201 ) query = { $set: { "name": input.listName } };
+							else {
+								callback("Provided information was malformatted", null);
+								return;
+							}
+							break;
+						case 1: // DELETE ITEM
+							if(input.itemName && input.itemName.length > 0 && input.itemName.length < 201 ) { 
+								// OLD: query = { $pull: { "items": input.itemName } };
+								query = { $pull: { "items" : { "text" : input.itemName } } }
+							} else {
+								callback("Provided information was malformatted", null);
+								return;
+							}
+							break;
+						case 2: // ADD ITEM
+							// OLD : if(input.itemName && input.itemName.length > 0) query = { $push: { "items": input.itemName } };
+							if(optional.text && optional.text.length > 0 && optional.text.length < 201
+								&& optional.link !== undefined && optional.title !== undefined) {
+								query = { $push: { "items":  {text:optional.text, link:optional.link, title:optional.title } } }
+							} else {
+								callback("Provided information was malformatted", null);
+								return;
+							}
+							break;
+					}
 
-	    		// 1C Perform query
-		        lists.update({"owner" : UserId, "_id": ObjId }, query, { multi: false } , function(err, documents){
+					// 1C Perform query
+						lists.update({"owner" : UserId, "_id": ObjId }, query, { multi: false } , function(err, documents){
 
 					if(err) {
 						callback(err, null);
 						return;
-		          	}
+								}
 
-		          	if (documents.length < 1) {
-		          		callback("The list does not exists", null);
-		          		return;
-		          	}
+								if (documents.length < 1) {
+									callback("The list does not exists", null);
+									return;
+								}
 
 					callback(false, null);
 					return;
 
-		        });
+						});
 
-		    });
+				});
 
 		});
 
 	} else { 
 	// 2. THE USER IS NOT SIGNED UP
 
-    	if(validCookie(req)) {
-    		
-    		// 2A. get data from cookie
-    		var data = req.cookies.DopeAssListsData;
-    		// 2B. get specific list
-    		var index = findList(input.listId , data);
+			if(validCookie(req)) {
+				
+				// 2A. get data from cookie
+				var data = req.cookies.DopeAssListsData;
+				// 2B. get specific list
+				var index = findList(input.listId , data);
 
-    		// Check for possible errors
-    		if(index == -1) {
-    			callback("The list does not exist", null);
-	          	return;
-    		}
+				// Check for possible errors
+				if(index == -1) {
+					callback("The list does not exist", null);
+							return;
+				}
 
-    		switch(type) {
-    			case 0: // EDIT LIST
-    				if(input.listName && input.listName.length > 0 && input.listName.length < 201 ) data[index].name = input.listName;
-    				else {
-    					callback("Provided information was malformatted", null);
-    					return;
-    				}
-    				break;
-    			case 1: // DELETE ITEM
-    				if(input.itemName && input.itemName.length > 0 && input.itemName.length < 201) {
+				switch(type) {
+					case 0: // EDIT LIST
+						if(input.listName && input.listName.length > 0 && input.listName.length < 201 ) data[index].name = input.listName;
+						else {
+							callback("Provided information was malformatted", null);
+							return;
+						}
+						break;
+					case 1: // DELETE ITEM
+						if(input.itemName && input.itemName.length > 0 && input.itemName.length < 201) {
 
-    					// get index of itemName
-    					var index2 = findItem(input.itemName, data[index].items);
-    					// OLD :var index2 = data[index].items.indexOf(input.itemName);
-			    		if(index2 == -1) {
-			    			callback("The item does not exist", null);
-			    			return;
-			    		}
-    					data[index].items.splice(index2, 1);
-    				} else {
-    					callback("Provided information was malformatted", null);
-    					return;
-    				}
-    				break;
-    			case 2: // ADD ITEM
-    				if(optional.text && optional.text.length > 0 && optional.text.length < 201
-    					&& optional.link !== undefined && optional.title !== undefined ) {
-    					// OLD : data[index].items.push(input.itemName);
-    					data[index].items.push( {text:optional.text, link:optional.link, title:optional.title }  );
-    				} else {
-    					callback("Provided information was malformatted", null);
-    					return;
-    				}
-    				break;
-    		}
+							// get index of itemName
+							var index2 = findItem(input.itemName, data[index].items);
+							// OLD :var index2 = data[index].items.indexOf(input.itemName);
+							if(index2 == -1) {
+								callback("The item does not exist", null);
+								return;
+							}
+							data[index].items.splice(index2, 1);
+						} else {
+							callback("Provided information was malformatted", null);
+							return;
+						}
+						break;
+					case 2: // ADD ITEM
+						if(optional.text && optional.text.length > 0 && optional.text.length < 201
+							&& optional.link !== undefined && optional.title !== undefined ) {
+							// OLD : data[index].items.push(input.itemName);
+							data[index].items.push( {text:optional.text, link:optional.link, title:optional.title }  );
+						} else {
+							callback("Provided information was malformatted", null);
+							return;
+						}
+						break;
+				}
 
 			callback(false, data);
 			return;
 
-    	} else {
+			} else {
 
-    		callback("Not a valid cookie", null);
-    		return;
-    	}
+				callback("Not a valid cookie", null);
+				return;
+			}
 
 	}
 
@@ -485,7 +485,7 @@ function createList(req, callback) {
  */
 function deleteList(req, callback) {
 
- 	// 0. get the data
+	// 0. get the data
 	var input = req.body;
 
 	// 0. verify listId (needed in all cases)
@@ -506,85 +506,85 @@ function deleteList(req, callback) {
 			if(err) {
 				callback("Error while connecting : " + err, null, null);
 				return;
-    		}
+				}
 
-    		// Make sure user is really valid
-    		try { var username = getUsername(req);
-    		} catch(err) { 
-    			callback("Your cookie is malformatted. Try to logout and login again.", null);
-    			return;
-    		}
-    		try { var UserId = new BSON.ObjectID(getUserId(req));
-    		} catch(err) {
-    			failure("panic", "Your cookie is malformated. Try to logout and login again.");
-    			return;
-    		}
+				// Make sure user is really valid
+				try { var username = getUsername(req);
+				} catch(err) { 
+					callback("Your cookie is malformatted. Try to logout and login again.", null);
+					return;
+				}
+				try { var UserId = new BSON.ObjectID(getUserId(req));
+				} catch(err) {
+					failure("panic", "Your cookie is malformated. Try to logout and login again.");
+					return;
+				}
 
-    		var users = db.collection('users');
-	        users.find({"username" : username, "_id": UserId }).toArray(function(err, documents){
+				var users = db.collection('users');
+					users.find({"username" : username, "_id": UserId }).toArray(function(err, documents){
 
-	        	if (err) {
-	        		callback("Sorry the database is doing stupid stuff", null);
-	        		return;
-	        	}
+						if (err) {
+							callback("Sorry the database is doing stupid stuff", null);
+							return;
+						}
 
 				if(documents.length < 1) {
 					callback("User seems to be invalid", null);
 					return;
-	          	}
+							}
 
-	    		// 1Aii. We are connected
-	    		var lists = db.collection('lists');
-	    		var ObjId = new BSON.ObjectID(input.listId);
+					// 1Aii. We are connected
+					var lists = db.collection('lists');
+					var ObjId = new BSON.ObjectID(input.listId);
 
-	    		lists.remove({"owner" : UserId, "_id": ObjId }, { "single": true}, function(err, documents){
+					lists.remove({"owner" : UserId, "_id": ObjId }, { "single": true}, function(err, documents){
 
 					if(err) {
 						callback(err, null);
 						return;
-		          	}
+								}
 
-		          	if (documents.length < 1) {
-		          		callback("The list does not exists", null);
-		          		return;
-		          	}
+								if (documents.length < 1) {
+									callback("The list does not exists", null);
+									return;
+								}
 
 					callback(false, null);
 					return;
 
-		        });
+						});
 
-		    });
+				});
 
 		});
 
 	} else { 
 	// 2. THE USER IS NOT SIGNED UP
 
-    	if(validCookie(req)) {
-    		
-    		// 2A. get data from cookie
-    		var data = req.cookies.DopeAssListsData;
-    		// 2B. get specific list
-    		var index = findList(input.listId , data);
+			if(validCookie(req)) {
+				
+				// 2A. get data from cookie
+				var data = req.cookies.DopeAssListsData;
+				// 2B. get specific list
+				var index = findList(input.listId , data);
 
-    		// Check for possible errors
-    		if(index == -1) {
-    			callback("The list does not exist", null);
-	          	return;
-    		}
+				// Check for possible errors
+				if(index == -1) {
+					callback("The list does not exist", null);
+							return;
+				}
 
-    		data.splice(index, 1);
+				data.splice(index, 1);
 
-    		// requires Cookie update
+				// requires Cookie update
 			callback(false, data);
 			return;
 
-    	} else {
+			} else {
 
-    		callback("Not a valid cookie", null);
-    		return;
-    	}
+				callback("Not a valid cookie", null);
+				return;
+			}
 
 	}
 }
@@ -627,16 +627,16 @@ exports.login = function(input, success, failure) {
 
 	if(!input.username || !input.password) {
 		failure('lists', "Some info is missing. You really thought I wouldn't notice ?");
- 		return;
- 	}
+		return;
+	}
 	if(input.username.length<3 || input.username.length > 32) {
 		failure('lists', "Your username has to be between 3 and 32 characters long.");
- 		return;
- 	}
- 	if(input.password.length<3 || input.password.length > 32) {
- 		failure('lists', "Your password has to be between 3 and 32 characters long.");
- 		return;
- 	}
+		return;
+	}
+	if(input.password.length<3 || input.password.length > 32) {
+		failure('lists', "Your password has to be between 3 and 32 characters long.");
+		return;
+	}
 
 	var hashed = crypto.createHash('sha1').update(input.password).digest("hex");
 
@@ -646,23 +646,24 @@ exports.login = function(input, success, failure) {
 		// 1Ai. If we encounter error while connecting
 		if(err) {
 			failure("panic", "Sorry, the database seems to be dead.");
+			console.log(err);
 			return;
 		}
 
 		// 1Aii. We are connected
 		var users = db.collection('users');
-        users.find({"username" : input.username.trim(), "password": hashed }).toArray(function(err, documents){
+				users.find({"username" : input.username.trim(), "password": hashed }).toArray(function(err, documents){
 
-        	if(err) {
-        		failure("panic", "Sorry, the database is doing stupid stuff again.");
-        		return;
-        	}
+					if(err) {
+						failure("panic", "Sorry, the database is doing stupid stuff again.");
+						return;
+					}
 
-        	if(documents.length < 1) {
-        		failure("lists", "Wrong credentials");
-        		return;
+					if(documents.length < 1) {
+						failure("lists", "Wrong credentials");
+						return;
 
-        	} else {
+					} else {
 
 				success(documents[0]._id.valueOf(), documents[0].username);
 				return;
@@ -683,27 +684,27 @@ exports.login = function(input, success, failure) {
  */
  exports.signup = function(req, success, failure) {
 
- 	var input = req.body;
- 	if(!input.username || !input.password || !input.email) { 
- 		failure('signup', "Some info is missing. You really thought I wouldn't notice ?");
- 		return;
- 	}
- 	if(input.username.length<3 || input.username.length > 32) {
- 		failure('signup', "Your username has to be between 3 and 32 characters long.");
- 		return;
- 	}
- 	if(input.password.length<3 || input.password.length > 32) {
- 		failure('signup', "Your password has to be between 3 and 32 characters long.");
- 		return;
- 	}
- 	if(input.email.length<4 || input.email.length > 100) {
- 		failure('signup', "Your email has to be between 4 and 100 characters long.");
- 		return;
- 	}
+	var input = req.body;
+	if(!input.username || !input.password || !input.email) { 
+		failure('signup', "Some info is missing. You really thought I wouldn't notice ?");
+		return;
+	}
+	if(input.username.length<3 || input.username.length > 32) {
+		failure('signup', "Your username has to be between 3 and 32 characters long.");
+		return;
+	}
+	if(input.password.length<3 || input.password.length > 32) {
+		failure('signup', "Your password has to be between 3 and 32 characters long.");
+		return;
+	}
+	if(input.email.length<4 || input.email.length > 100) {
+		failure('signup', "Your email has to be between 4 and 100 characters long.");
+		return;
+	}
 
- 	var hashed = crypto.createHash('sha1').update(input.password).digest("hex");
+	var hashed = crypto.createHash('sha1').update(input.password).digest("hex");
 
- 	var url = format("mongodb://127.0.0.1/dopeasslistsdb");
+	var url = format("mongodb://127.0.0.1/dopeasslistsdb");
 	MongoClient.connect(url, function(err, db) {
 
 		// 1Ai. If we encounter error while connecting
@@ -714,38 +715,38 @@ exports.login = function(input, success, failure) {
 
 		// 1Aii. We are connected
 		var users = db.collection('users');
-        users.find({"username" : input.username}).toArray(function(err, documents){
+				users.find({"username" : input.username}).toArray(function(err, documents){
 
-        	if(err) {
-        		failure("panic", "Sorry, the database is doing stupid stuff again.");
-        		return;
-        	}
+					if(err) {
+						failure("panic", "Sorry, the database is doing stupid stuff again.");
+						return;
+					}
 
-        	if(documents.length > 0) {
-        		failure("signup", "Ah bummer! That username is already taken.");
-        		return;
+					if(documents.length > 0) {
+						failure("signup", "Ah bummer! That username is already taken.");
+						return;
 
-        	} else {
+					} else {
 
-        		// Check if email is already used
-        		users.find({"email" : input.email.trim()}).toArray(function(err, documents){
+						// Check if email is already used
+						users.find({"email" : input.email.trim()}).toArray(function(err, documents){
 
-		        	if(err) {
-		        		failure("panic", "Sorry, the database is doing stupid stuff again.");
-		        		return;
-		        	}
+							if(err) {
+								failure("panic", "Sorry, the database is doing stupid stuff again.");
+								return;
+							}
 
-		        	if(documents.length > 0) {
-		        		failure("signup", "That email was already used for an account.");
-		        		return;
-		        	}
+							if(documents.length > 0) {
+								failure("signup", "That email was already used for an account.");
+								return;
+							}
 
 					// username and email not taken
 					users.insert({"username" : input.username.trim(), "password" : hashed, "email": input.email.trim()}, function(err, docs){
 
 						if(err) {
 							failure("panic", "Sorry, the database is doing stupid stuff again.");
-	        				return;
+									return;
 						}
 
 						// return userID and username for cookie
@@ -762,6 +763,82 @@ exports.login = function(input, success, failure) {
 	});	
 
  }
+
+/*
+function resetPassword(req,callback) {
+
+	var input = req.body;
+	if(!input.email || input.email.length < 1 || input.email.length > 300) {
+		callback("panic", "The provided email address seems malformatted.");
+		return;
+	}
+
+	// check if the email exists
+	var url = format("mongodb://127.0.0.1/dopeasslistsdb");
+	MongoClient.connect(url, function(err, db) {
+
+		// 1Ai. If we encounter error while connecting
+		if(err) {
+			callback("panic", "Sorry, the database seems to be dead.");
+			return;
+		}
+
+		// 1Aii. We are connected
+		var users = db.collection('users');
+		users.find({"email" : input.email.trim()}).toArray(function(err, documents){
+
+			if(err) {
+				callback("panic", "Sorry, the database is doing stupid stuff again.");
+				return;
+			}
+
+			if(documents.length < 1) {
+				callback("forgot", "No user signed up with that email");
+				return;
+			}
+
+			// Update the database;
+			// create a random string
+			try { var token = crypto.randomBytes(20)..toString('hex');
+			} catch(err) {
+				callback("forgot", "An error occured. Please try again.");
+				return;
+			}
+
+			// Update databse
+			users.update({"email" : input.email.trim()}, {$set: {
+				"resetPasswordToken" : token,
+				"resetPasswordExpires" : Date.now() + 7200000 // 2 hours
+			}}, { multi: false }, function(err, docs){
+
+				if(err || docs.length < 1) {
+					callback("panic", "Sorry, the database is doing stupid stuff again.");
+					return;
+				}
+
+				// ALL GOOD !
+				var transporter = nodemailer.createTransport({
+				    service: 'gmail',
+				    auth: {
+				        user: 'sender@gmail.com',
+				        pass: 'password'
+				    }
+				});
+				transporter.sendMail({
+				    from: 'sender@address',
+				    to: 'receiver@address',
+				    subject: 'hello',
+				    text: 'hello world!'
+				});
+
+				// fuck all that ...
+
+			});
+		});
+	});
+
+}
+*/
 
 // LIST DISPLAY
 exports.getAll = getAll;

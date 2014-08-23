@@ -50,7 +50,3 @@ function terms() {
 function ofcourse() {
 	$('#terms').html("Of course you read them. But there actually aren't any.");
 }
-
-function email() {
-	$('#email').html("Seriously? Well, nothing we can do about that.<br/><br/>");
-}
