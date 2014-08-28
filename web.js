@@ -1,7 +1,7 @@
 
 // PROJECT NAME : Dopeass Lists
 // PROJECT AUTHOR : Daniel Balle
-// PROJECT DOMAIN : <DOMAIN>
+// PROJECT DOMAIN : smyte.co
 // PROEJCT PORT : 8892
 var port = 8892;
 
